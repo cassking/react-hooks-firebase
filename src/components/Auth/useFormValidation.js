@@ -1,8 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function useFormValidation(initialState) {
+function useFormValidation(initialState, validate) {
+
+
 // our custom hook for validation
-const [values, setValues] = useState(initialState)
+const [values, setValues] = useState(initialState);
+const [errors, setErrors] = useState({});
+// to check if errors state has changed, updated use useEffects
+const [isSubmitting, setSubmitting] = useState(false);
+
+useEffect( ()=> {
+  if (isSubmitting) {
+    // convert the object to an arrau to check if there are any errors more easily
+    // check length of array then
+    const noErrors = Object.keys(errors).length === 0;
+    if (noErrors) {
+      console.log("AUTHENTICATED ", values)
+      setSubmitting(false)
+    } else {
+      setSubmitting(false)
+    }
+  }
+
+}, [errors]) // run callback only if errors chanages
+
   function handleChange(event) {
     event.persist();
     // use updater pattern when updating state based on previous states
@@ -11,13 +32,18 @@ const [values, setValues] = useState(initialState)
       [event.target.name]: event.target.value
     }))
   }
-
+  function handleBlur() {
+    const validationErrors = validate(values);
+    setErrors(validationErrors)
+  }
   function handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
+    const validationErrors = validate(values)
     console.log( {values })
+    setSubmitting(true)
   }
   // this is how we send the handleChange event to Login.js
-  return { handleSubmit, handleChange, values }
+  return { handleSubmit, handleBlur,  handleChange, values, errors, isSubmitting }
 }
 
 export default useFormValidation;
