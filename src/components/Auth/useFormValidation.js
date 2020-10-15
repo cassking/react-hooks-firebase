@@ -15,7 +15,8 @@ useEffect( ()=> {
     // check length of array then
     const noErrors = Object.keys(errors).length === 0;
     if (noErrors) {
-      console.log("AUTHENTICATED ", values)
+      alert("hello")
+      console.log("AUTHENTICATED:...... ", values, "AUTHENTICATED:...... ")
       setSubmitting(false)
     } else {
       setSubmitting(false)
@@ -39,7 +40,8 @@ useEffect( ()=> {
   function handleSubmit(event) {
     event.preventDefault();
     const validationErrors = validate(values)
-    console.log( {values })
+    // console.log( {values })
+    setErrors(validationErrors)
     setSubmitting(true)
   }
   // this is how we send the handleChange event to Login.js
