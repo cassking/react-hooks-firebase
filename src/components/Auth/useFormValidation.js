@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function useFormValidation(initialState, validate) {
+function useFormValidation(initialState, validate, autheticate) {
 
 
 // our custom hook for validation
@@ -15,8 +15,9 @@ useEffect( ()=> {
     // check length of array then
     const noErrors = Object.keys(errors).length === 0;
     if (noErrors) {
-      alert("hello")
-      console.log("AUTHENTICATED:...... ", values, "AUTHENTICATED:...... ")
+      autheticate()
+      // alert("hello")
+      // console.log("AUTHENTICATED:...... ", values, "AUTHENTICATED:...... ")
       setSubmitting(false)
     } else {
       setSubmitting(false)
